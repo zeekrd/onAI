@@ -25,9 +25,13 @@
     }
     nav {
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .button-group {
+      display: flex;
       gap: 15px;
-      margin-bottom: 20px;
     }
     .subject-btn {
       background-color: rgba(255, 255, 255, 0.2);
@@ -42,6 +46,11 @@
     .subject-btn.active,
     .subject-btn:hover {
       background-color: rgba(255, 255, 255, 0.4);
+    }
+    .question-count {
+      margin-top: 5px;
+      font-size: 14px;
+      opacity: 0.8;
     }
     .flashcards {
       display: flex;
@@ -85,11 +94,6 @@
       transform: rotateY(180deg);
       flex-direction: column;
     }
-    .counter {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
     .bot-link {
       position: absolute;
       top: 20px;
@@ -107,18 +111,24 @@
   </style>
 </head>
 <body>
-  <img src="logo.png" alt="Логотип" class="top-left-logo">
+  <!-- Укажи правильный путь к логотипу -->
+  <img src="your-logo-path.png" alt="Логотип" class="top-left-logo">
 
   <a href="https://onaiuide-bot.tg.pulse.is/" class="bot-link" target="_blank">Наш чат бот</a>
+
   <header>
     <h1>Флэш карточки от onAI (Uide)</h1>
   </header>
+
   <nav>
-    <button class="subject-btn" onclick="selectSubject('math', this)">Математика</button>
-    <button class="subject-btn" onclick="selectSubject('physics', this)">Физика</button>
-    <button class="subject-btn" onclick="selectSubject('biology', this)">Биология</button>
+    <div class="button-group">
+      <button class="subject-btn" onclick="selectSubject('math', this)">Математика</button>
+      <button class="subject-btn" onclick="selectSubject('physics', this)">Физика</button>
+      <button class="subject-btn" onclick="selectSubject('biology', this)">Биология</button>
+    </div>
+    <div class="question-count" id="questionCountText">Всего 10 вопросов</div>
   </nav>
-  <div class="counter">Вопрос <span id="current">1</span> из <span id="total">10</span></div>
+
   <div class="flashcards" id="cards"></div>
 
   <script>
@@ -172,13 +182,13 @@
 
     function renderCards() {
       const cardContainer = document.getElementById('cards');
-      const counter = document.getElementById('current');
-      const total = document.getElementById('total');
+      const questionCountText = document.getElementById('questionCountText');
       cardContainer.innerHTML = '';
 
       const cards = subjects[currentSubject];
-      total.innerText = cards.length;
-      cards.forEach((card, index) => {
+      questionCountText.innerText = `Всего ${cards.length} вопросов`;
+
+      cards.forEach((card) => {
         const div = document.createElement('div');
         div.className = 'card';
         div.innerHTML = `
@@ -188,7 +198,6 @@
           </div>`;
         cardContainer.appendChild(div);
       });
-      counter.innerText = 1;
     }
 
     window.onload = () => {
