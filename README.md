@@ -1,2 +1,2 @@
-https://zeekrd.github.io/
+https://zeekrd.github.io/onAI/
 ССЫЛКА САЙТА
